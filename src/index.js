@@ -1,36 +1,32 @@
 const fs = require('fs');
 const path = require('path');
+const { PrismaClient } = require('@prisma/client')
 
 const { ApolloServer } = require('apollo-server');
 
-// temporarily kept here in memory, usually kept in a DB
-let links = [{
-    id: 'link-0',
-    url: 'www.howtographql.com',
-    description: 'Fullstack tutorial for GraphQL'
-}]
-
-let idCount = links.length;
+const prisma = new PrismaClient();
 
 // resolvers object is the actual implementation of the above schema
 // note that its structure is identical to type definition above
 const resolvers = {
     Query: {
         info: () => `This is the API of a Hackernews Clone`,
-        feed: () => links,
+        feed: async (parent, args, context) => {
+            return context.prisma.link.findMany()
+        }
     },
     Mutation: {
         // creates a new link object
         // then adds it to links list
         // then returns the new link
-        post: (parent, args) => {
-            const link = {
-                id: `link-${idCount++}`,
-                description: args.description,  // args... see schema
-                url: args.url,                  // ditto
-            }
-            links.push(link);
-            return link;
+        post: (parent, args, context, info) => {
+            const newLink = context.prisma.link.create({
+                data: {
+                    url: args.url,
+                    description: args.description,
+                },
+            })
+            return newLink
         }
     }
     // following not actually needed, just for learning purposes
@@ -50,6 +46,9 @@ const server = new ApolloServer({
         'utf8'
     ),
     resolvers,
+    context: {
+        prisma,
+    }
 })
 
 server
