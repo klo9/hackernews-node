@@ -1,2 +1,2 @@
 # hackernews-node
-a GraphQL demo with Node.js
+a hackernews clone built with GraphQL with Node.js

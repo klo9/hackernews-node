@@ -1,0 +1,24 @@
+{
+  "name": "hackernews-node",
+  "version": "1.0.0",
+  "description": "a GraphQL demo with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klo9/hackernews-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klo9/hackernews-node/issues"
+  },
+  "homepage": "https://github.com/klo9/hackernews-node#readme",
+  "dependencies": {
+    "apollo-server": "^2.25.2",
+    "graphql": "^15.5.1"
+  }
+}
